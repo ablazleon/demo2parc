@@ -19,6 +19,8 @@ class ExamenTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
+        download()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -65,6 +67,30 @@ class ExamenTableViewController: UITableViewController {
         return cell
     }
     
+    func download(){
+        
+        guard let url = URL(string: URLBASE) else {
+            print("Bad Url")
+            return
+        }
+        
+        DispatchQueue.global().async {
+            // COmo es bloqueante se lo hecho a un thread
+            if let data = try? Data(contentsOf: url){
+                // If bad, you give me a nil
+                
+                //JSON serialization
+                
+                if let itemsSerialized = (try? JSONSerialization.jsonObject(with: data)) as? [String]{
+                    DispatchQueue.main.async{
+                        self.items = itemsSerialized
+                        self.tableView.reloadData()
+                    }
+                }
+            }
+        }
+    }
+    
     // Pick this string and download
     func download(_ urls: String, for indexPath: IndexPath){
         
@@ -82,7 +108,6 @@ class ExamenTableViewController: UITableViewController {
                     }
             } else {
                 print("Mal")
-                
             }
         }
         // Fotos que sean bajado no se la gurada
@@ -134,28 +159,6 @@ class ExamenTableViewController: UITableViewController {
     }
     */
 
-    func download(){
-        
-        guard let url = URL(string: URLBASE) else {
-            print("Bad Url")
-            return
-        }
-        
-        DispatchQueue.global().async {
-            // COmo es bloqueante se lo hecho a un thread
-            if let data = try? Data(contentsOf: url){
-                // If bad, you give me a nil
-                
-                //JSON serialization
-                
-                if let itemsSerialized = (try? JSONSerialization.jsonObject(with: data)) as? [String]{
-                    DispatchQueue.main.async{
-                        self.items = itemsSerialized
-                        self.tableView.reloadData()
-                    }
-                }
-            }
-        }
-    }
+   
         
 }
