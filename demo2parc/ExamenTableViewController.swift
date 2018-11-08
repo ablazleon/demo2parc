@@ -8,11 +8,20 @@
 
 import UIKit
 
+struct Item: Codable{
+    let title: String
+    let image1: String
+    let image2: String
+    
+}
+
+// Put two string and string
+
 class ExamenTableViewController: UITableViewController {
 
-    let URLBASE = "https://www.dit.upm.es/santiago/examen/datos212.json"
+    let URLBASE = "https://www.dit.upm.es/santiago/examen/datos711.json"
     
-    var items = [String]() // Creo un array vacío
+    var items = [Item]() // Creo un array vacío
     
     var imagesCache = [String:UIImage]()
     
@@ -51,18 +60,19 @@ class ExamenTableViewController: UITableViewController {
 
         // Configure the cell...
 
-        let imgurl = items[indexPath.row]
-        
-        cell.textLabel?.text = items[indexPath.row] // Which items it mathc
-        
-        if let img = imagesCache[imgurl] {
-             cell.imageView?.image = img
-        } else {
-            cell.imageView?.image = UIImage(named: "none") // pu a none image
-            
-            //donwload(imgurl, cell) // SI haog scroll se va a representar en ese cell con el indexPath row
-            download(imgurl, for: indexPath) // For a certain path, instead of indexPath, an int: si se me ocurre secciones, no row
-        }
+        let item = items[indexPath.row]
+        cell.textLabel?.text = item.title
+
+//        cell.textLabel?.text = items[indexPath.row] // Which items it mathc
+//
+//        if let img = imagesCache[imgurl] {
+//             cell.imageView?.image = img
+//        } else {
+//            cell.imageView?.image = UIImage(named: "none") // pu a none image
+//
+//            //donwload(imgurl, cell) // SI haog scroll se va a representar en ese cell con el indexPath row
+//            download(imgurl, for: indexPath) // For a certain path, instead of indexPath, an int: si se me ocurre secciones, no row
+//        }
         
         return cell
     }
@@ -76,43 +86,59 @@ class ExamenTableViewController: UITableViewController {
         
         DispatchQueue.global().async {
             // COmo es bloqueante se lo hecho a un thread
-            if let data = try? Data(contentsOf: url){
+
                 // If bad, you give me a nil
                 
                 //JSON serialization
                 
-                if let itemsSerialized = (try? JSONSerialization.jsonObject(with: data)) as? [String]{
+            if let data = try? Data(contentsOf: url){
+                let decoder = JSONDecoder()
+                if let items = try? decoder.decode([Item].self, from: data){
+                    // Edit this p roeprties only in the main thread
                     DispatchQueue.main.async{
-                        self.items = itemsSerialized
+                        self.items = items
                         self.tableView.reloadData()
                     }
                 }
             }
         }
+        
     }
     
     // Pick this string and download
-    func download(_ urls: String, for indexPath: IndexPath){
-        
-        // As it is blocking block
-        // DispatchQueue(label: "Cola Baja Foto").async { - not to create so many queue
-        DispatchQueue.global().async {
-            print("bajando", urls)
-            if let url = URL(string: urls),
-                let data = try? Data(contentsOf: url),
-                let img = UIImage(data: data){
-                    DispatchQueue.main.async {
-                        self.imagesCache[urls] = img
-                        // Not to relaod all data, onlt the specicfic row
-                        self.tableView.reloadRows(at: [indexPath], with: .fade)
-                    }
-            } else {
-                print("Mal")
-            }
-        }
-        // Fotos que sean bajado no se la gurada
-        
-    }
+//    func download(_ urls: String, for indexPath: IndexPath){
+//
+//        // As it is blocking block
+//        // DispatchQueue(label: "Cola Baja Foto").async { - not to create so many queue
+//        DispatchQueue.global().async {
+//
+//            if let data = try? Data(contentsOf: urls){
+//                let decode = JSONDecoder()
+//                if let items = try? decode.decode([Item].self, form: data){
+//                    // Edit this p roeprties only in the main thread
+//                    DispatchQueue.main.async{
+//                        self.items = items
+//                        self.tableView.reloadData()
+//                    }
+//                }
+//            }
+//
+////            print("bajando", urls)
+////            if let url = URL(string: urls),
+////                let data = try? Data(contentsOf: url),
+////                let img = UIImage(data: data){
+////                    DispatchQueue.main.async {
+////                        self.imagesCache[urls] = img
+////                        // Not to relaod all data, onlt the specicfic row
+////                        self.tableView.reloadRows(at: [indexPath], with: .fade)
+////                    }
+////            } else {
+////                print("Mal")
+////            }
+//        }
+//        // Fotos que sean bajado no se la gurada
+//
+//    }
 
     /*
     // Override to support conditional editing of the table view.
