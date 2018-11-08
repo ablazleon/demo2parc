@@ -59,12 +59,36 @@ class ExamenTableViewController: UITableViewController {
             cell.imageView?.image = UIImage(named: "none") // pu a none image
             
             //donwload(imgurl, cell) // SI haog scroll se va a representar en ese cell con el indexPath row
-            download(imgurl, for: indexPath) // For a certain path, instead of indexPath, an int
+            download(imgurl, for: indexPath) // For a certain path, instead of indexPath, an int: si se me ocurre secciones, no row
         }
         
         return cell
     }
     
+    // Pick this string and download
+    func download(_ urls: String, for indexPath: IndexPath){
+        
+        // As it is blocking block
+        // DispatchQueue(label: "Cola Baja Foto").async { - not to create so many queue
+        DispatchQueue.global().async {
+            print("bajando", urls)
+            if let url = URL(string: urls) {
+                if let data = try? Data(contentsOf: url){
+                    if let img = UIImage(data: data){
+                        
+                        DispatchQueue.main.async {
+                            self.imagesCache[urls] = img
+                            // Not to relaod all data, onlt the specicfic row
+                            self.tableView.reloadRows(at: [indexPath], with: .fade)
+                        }
+                        
+                    }
+                }
+            }
+        }
+        
+        
+    }
 
     /*
     // Override to support conditional editing of the table view.
