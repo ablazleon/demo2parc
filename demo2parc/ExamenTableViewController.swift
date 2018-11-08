@@ -122,12 +122,11 @@ class ExamenTableViewController: UITableViewController {
         // DispatchQueue(label: "Cola Baja Foto").async { - not to create so many queue
         DispatchQueue.global().async {
             
-            
+            let urls2 = urls.app
             // THe code as the otehr code
             if let url = URL(string: urls)
-            let data = try? Data(contentsOf: url!){
-                let decode = JSONDecoder()
-                if let items = try? decode.decode([Item].self, form: data){
+                let data = try? Data(contentsOf: url!){
+                    let img = UIImage(named: urls){
                     // Edit this p roeprties only in the main thread
                     DispatchQueue.main.async{
                         self.items = items
