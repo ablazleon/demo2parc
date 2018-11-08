@@ -14,6 +14,8 @@ class ExamenTableViewController: UITableViewController {
     
     var items = [String]() // Creo un array vacío
     
+    var imagesCache = [String:UIImage]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -47,7 +49,18 @@ class ExamenTableViewController: UITableViewController {
 
         // Configure the cell...
 
+        let imgurl = items[indexPath.row]
+        
         cell.textLabel?.text = items[indexPath.row] // Which items it mathc
+        
+        if let img = imagesCache[imgurl] {
+             cell.imageView?.image = img
+        } else {
+            cell.imageView?.image = UIImage(named: "none") // pu a none image
+            
+            //donwload(imgurl, cell) // SI haog scroll se va a representar en ese cell con el indexPath row
+            download(imgurl, for: indexPath) // For a certain path, instead of indexPath, an int
+        }
         
         return cell
     }
@@ -105,18 +118,21 @@ class ExamenTableViewController: UITableViewController {
             return
         }
         
-        
-        // COmo es bloqueante se lo hecho a un thread
-        if let data = try? Data(contentsOf: url){
-            // If bad, you give me a nil
-            
-            //JSON serialization
-            
-            if let itemsSerialized = (try? JSONSerialization.jsonObject(with: data)) as? [String]{
+        DispatchQueue.global().async {
+            // COmo es bloqueante se lo hecho a un thread
+            if let data = try? Data(contentsOf: url){
+                // If bad, you give me a nil
                 
-                self.items = itemsSerialized
+                //JSON serialization
+                
+                if let itemsSerialized = (try? JSONSerialization.jsonObject(with: data)) as? [String]{
+                    DispatchQueue.main.async{
+                        self.items = itemsSerialized
+                        self.tableView.reloadData()
+                    }
+                }
             }
-            
         }
     }
+        
 }
