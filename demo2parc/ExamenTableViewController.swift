@@ -56,23 +56,33 @@ class ExamenTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Item Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Item Cell", for: indexPath) as! ItemTableViewCell
 
         // Configure the cell...
 
         let item = items[indexPath.row]
         cell.textLabel?.text = item.title
 
-//        cell.textLabel?.text = items[indexPath.row] // Which items it mathc
-//
-//        if let img = imagesCache[imgurl] {
-//             cell.imageView?.image = img
-//        } else {
-//            cell.imageView?.image = UIImage(named: "none") // pu a none image
-//
-//            //donwload(imgurl, cell) // SI haog scroll se va a representar en ese cell con el indexPath row
-//            download(imgurl, for: indexPath) // For a certain path, instead of indexPath, an int: si se me ocurre secciones, no row
-//        }
+        cell.nameLabel?.text = items[indexPath.row] // Which items it mathc
+
+        if let img = imagesCache[imgurl] {
+            cell.img1.image = img
+        } else {
+            cell.img1.image = UIImage(named: "none") // pu a none image
+            
+            //donwload(imgurl, cell) // SI haog scroll se va a representar en ese cell con el indexPath row
+            download(imgurl, for: indexPath) // For a certain path, instead of indexPath, an int: si se me ocurre secciones, no row
+        }
+        
+        if let img = imagesCache[imgurl] {
+            cell.img2.image = img
+        } else {
+            cell.img2.image = UIImage(named: "none") // pu a none image
+            
+            //donwload(imgurl, cell) // SI haog scroll se va a representar en ese cell con el indexPath row
+            download(imgurl, for: indexPath) // For a certain path, instead of indexPath, an int: si se me ocurre secciones, no row
+        }
+        
         
         return cell
     }
@@ -131,7 +141,7 @@ class ExamenTableViewController: UITableViewController {
                     }
                 }
    
-            }
+            } // The same relaod the row
 
 //            print("bajando", urls)
 //            if let url = URL(string: urls),

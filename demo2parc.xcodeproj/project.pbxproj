@@ -12,6 +12,7 @@
 		3A87819B219451E500B53ACA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A87819A219451E500B53ACA /* Assets.xcassets */; };
 		3A87819E219451E500B53ACA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A87819C219451E500B53ACA /* LaunchScreen.storyboard */; };
 		3A8781C22194522300B53ACA /* ExamenTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8781C12194522300B53ACA /* ExamenTableViewController.swift */; };
+		3AD73070219462FE002C8314 /* ItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD7306F219462FE002C8314 /* ItemTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +42,7 @@
 		3A8781A4219451E500B53ACA /* demo2parcTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = demo2parcTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A8781AF219451E500B53ACA /* demo2parcUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = demo2parcUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A8781C12194522300B53ACA /* ExamenTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamenTableViewController.swift; sourceTree = "<group>"; };
+		3AD7306F219462FE002C8314 /* ItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,9 +93,10 @@
 			children = (
 				3A878193219451E500B53ACA /* AppDelegate.swift */,
 				3A8781C12194522300B53ACA /* ExamenTableViewController.swift */,
-				3A878197219451E500B53ACA /* Main.storyboard */,
+				3AD7306F219462FE002C8314 /* ItemTableViewCell.swift */,
 				3A87819A219451E500B53ACA /* Assets.xcassets */,
 				3A87819C219451E500B53ACA /* LaunchScreen.storyboard */,
+				3A878197219451E500B53ACA /* Main.storyboard */,
 				3A87819F219451E500B53ACA /* Info.plist */,
 			);
 			path = demo2parc;
@@ -234,6 +237,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A878194219451E500B53ACA /* AppDelegate.swift in Sources */,
+				3AD73070219462FE002C8314 /* ItemTableViewCell.swift in Sources */,
 				3A8781C22194522300B53ACA /* ExamenTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
