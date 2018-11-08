@@ -60,9 +60,9 @@ class ExamenTableViewController: UITableViewController {
 
         // Configure the cell...
 
+        
+        // SI lo que da problema es lo dos puntos: otra solucion podria ser
         let item = items[indexPath.row]
-        cell.textLabel?.text = item.title
-
         cell.nameLabel?.text = items[indexPath.row] // Which items it mathc
 
         if let img = imagesCache[imgurl] {
@@ -120,20 +120,25 @@ class ExamenTableViewController: UITableViewController {
 
         // As it is blocking block
         // DispatchQueue(label: "Cola Baja Foto").async { - not to create so many queue
+        
+        guard let urls2 = urls.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+            print("MAL ooo", urls)
+            return
+        }
+        
         DispatchQueue.global().async {
             
-            let urls2 = urls.app
             // THe code as the otehr code
-            if let url = URL(string: urls)
-                let data = try? Data(contentsOf: url!){
-                    let img = UIImage(named: urls){
+
+            if let url = URL(string: urls2),
+                let data = try? Data(contentsOf: url),
+                let img = UIImage(data: data){
                     // Edit this p roeprties only in the main thread
                     DispatchQueue.main.async{
-                        self.items = items
-                        self.tableView.reloadData()
+                        self.imagesCache[urls] = img
+                        self.tableView.reloadRows(at: [indexPath], with: .fade)
                     }
-                }
-                else{
+                } else{
                     DispatchQueue.main.async {
                         // Si no tiene la imagen la descarga
                         self.imagesCache[urls] = UIImage(named: "none")
