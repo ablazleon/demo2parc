@@ -123,6 +123,12 @@ class ExamenTableViewController: UITableViewController {
                         self.tableView.reloadData()
                     }
                 }
+                else{
+                    DispatchQueue.main.async {
+                        
+                    }
+                }
+   
             }
 
 //            print("bajando", urls)
