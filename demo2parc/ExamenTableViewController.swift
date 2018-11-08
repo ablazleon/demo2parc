@@ -10,7 +10,7 @@ import UIKit
 
 class ExamenTableViewController: UITableViewController {
 
-    let URLBASE = "https://www.dit.upm.es/santiago.examen/datos212.json"
+    let URLBASE = "https://www.dit.upm.es/santiago/examen/datos212.json"
     
     var items = [String]() // Creo un array vacío
     
@@ -72,21 +72,20 @@ class ExamenTableViewController: UITableViewController {
         // DispatchQueue(label: "Cola Baja Foto").async { - not to create so many queue
         DispatchQueue.global().async {
             print("bajando", urls)
-            if let url = URL(string: urls) {
-                if let data = try? Data(contentsOf: url){
-                    if let img = UIImage(data: data){
-                        
-                        DispatchQueue.main.async {
-                            self.imagesCache[urls] = img
-                            // Not to relaod all data, onlt the specicfic row
-                            self.tableView.reloadRows(at: [indexPath], with: .fade)
-                        }
-                        
+            if let url = URL(string: urls),
+                let data = try? Data(contentsOf: url),
+                let img = UIImage(data: data){
+                    DispatchQueue.main.async {
+                        self.imagesCache[urls] = img
+                        // Not to relaod all data, onlt the specicfic row
+                        self.tableView.reloadRows(at: [indexPath], with: .fade)
                     }
-                }
+            } else {
+                print("Mal")
+                
             }
         }
-        
+        // Fotos que sean bajado no se la gurada
         
     }
 
