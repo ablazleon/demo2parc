@@ -98,4 +98,25 @@ class ExamenTableViewController: UITableViewController {
     }
     */
 
+    func download(){
+        
+        guard let url = URL(string: URLBASE) else {
+            print("Bad Url")
+            return
+        }
+        
+        
+        // COmo es bloqueante se lo hecho a un thread
+        if let data = try? Data(contentsOf: url){
+            // If bad, you give me a nil
+            
+            //JSON serialization
+            
+            if let itemsSerialized = (try? JSONSerialization.jsonObject(with: data)) as? [String]{
+                
+                self.items = itemsSerialized
+            }
+            
+        }
+    }
 }
