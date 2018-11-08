@@ -112,9 +112,10 @@ class ExamenTableViewController: UITableViewController {
         // DispatchQueue(label: "Cola Baja Foto").async { - not to create so many queue
         DispatchQueue.global().async {
             
-            let url = URL(string: urls)
             
-            if let data = try? Data(contentsOf: url!){
+            // THe code as the otehr code
+            if let url = URL(string: urls)
+            let data = try? Data(contentsOf: url!){
                 let decode = JSONDecoder()
                 if let items = try? decode.decode([Item].self, form: data){
                     // Edit this p roeprties only in the main thread
@@ -125,7 +126,8 @@ class ExamenTableViewController: UITableViewController {
                 }
                 else{
                     DispatchQueue.main.async {
-                        
+                        // Si no tiene la imagen la descarga
+                        self.imagesCache[urls] = UIImage(named: "none")
                     }
                 }
    
