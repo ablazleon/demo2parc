@@ -106,39 +106,41 @@ class ExamenTableViewController: UITableViewController {
     }
     
     // Pick this string and download
-//    func download(_ urls: String, for indexPath: IndexPath){
-//
-//        // As it is blocking block
-//        // DispatchQueue(label: "Cola Baja Foto").async { - not to create so many queue
-//        DispatchQueue.global().async {
-//
-//            if let data = try? Data(contentsOf: urls){
-//                let decode = JSONDecoder()
-//                if let items = try? decode.decode([Item].self, form: data){
-//                    // Edit this p roeprties only in the main thread
-//                    DispatchQueue.main.async{
-//                        self.items = items
-//                        self.tableView.reloadData()
+    func download(_ urls: String, for indexPath: IndexPath){
+
+        // As it is blocking block
+        // DispatchQueue(label: "Cola Baja Foto").async { - not to create so many queue
+        DispatchQueue.global().async {
+            
+            let url = URL(string: urls)
+            
+            if let data = try? Data(contentsOf: url!){
+                let decode = JSONDecoder()
+                if let items = try? decode.decode([Item].self, form: data){
+                    // Edit this p roeprties only in the main thread
+                    DispatchQueue.main.async{
+                        self.items = items
+                        self.tableView.reloadData()
+                    }
+                }
+            }
+
+//            print("bajando", urls)
+//            if let url = URL(string: urls),
+//                let data = try? Data(contentsOf: url),
+//                let img = UIImage(data: data){
+//                    DispatchQueue.main.async {
+//                        self.imagesCache[urls] = img
+//                        // Not to relaod all data, onlt the specicfic row
+//                        self.tableView.reloadRows(at: [indexPath], with: .fade)
 //                    }
-//                }
+//            } else {
+//                print("Mal")
 //            }
-//
-////            print("bajando", urls)
-////            if let url = URL(string: urls),
-////                let data = try? Data(contentsOf: url),
-////                let img = UIImage(data: data){
-////                    DispatchQueue.main.async {
-////                        self.imagesCache[urls] = img
-////                        // Not to relaod all data, onlt the specicfic row
-////                        self.tableView.reloadRows(at: [indexPath], with: .fade)
-////                    }
-////            } else {
-////                print("Mal")
-////            }
-//        }
-//        // Fotos que sean bajado no se la gurada
-//
-//    }
+        }
+        // Fotos que sean bajado no se la gurada
+
+    }
 
     /*
     // Override to support conditional editing of the table view.
